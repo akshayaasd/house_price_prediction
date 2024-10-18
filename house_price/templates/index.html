@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #ffffff; /* Light text color */
+            padding: 20px;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            background-color: #2a2a2a; /* Dark input background */
+            color: #ffffff; /* Light text for inputs */
+            border: 1px solid #444; /* Darker border */
+            border-radius: 5px; /* Rounded corners */
+        }
+        input::placeholder {
+            color: #bbb; /* Light gray for placeholder text */
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff; /* Button background color */
+            color: white;
+            border: none;
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        h1, h2 {
+            color: #ffffff; /* Light color for headings */
+        }
+    </style>
+</head>
+<body>
+    <h1>Predict House Price</h1>
+    <form id="predictForm">
+        <input type="number" name="bedrooms" placeholder="Bedrooms" required>
+        <input type="number" name="bathrooms" placeholder="Bathrooms" required>
+        <input type="number" name="sqft_living" placeholder="Square Foot Living" required>
+        <input type="number" name="sqft_lot" placeholder="Square Foot Lot" required>
+        <input type="number" name="floors" placeholder="Floors" required>
+        <input type="number" name="waterfront" placeholder="Waterfront (0 or 1)" required>
+        <input type="number" name="view" placeholder="View (0 to 4)" required>
+        <input type="number" name="condition" placeholder="Condition (1 to 5)" required>
+        <input type="number" name="grade" placeholder="Grade (1 to 13)" required>
+        <input type="number" name="sqft_above" placeholder="Square Foot Above" required>
+        <input type="number" name="sqft_basement" placeholder="Square Foot Basement" required>
+        <input type="number" name="yr_built" placeholder="Year Built" required>
+        <input type="number" name="yr_renovated" placeholder="Year Renovated" required>
+        <input type="number" name="zipcode" placeholder="Zipcode" required>
+        <input type="number" name="lat" placeholder="Latitude" required>
+        <input type="number" name="long" placeholder="Longitude" required>
+        <input type="number" name="sqft_living15" placeholder="Square Foot Living 15" required>
+        <input type="number" name="sqft_lot15" placeholder="Square Foot Lot 15" required>
+        <button type="submit">Predict Price</button>
+    </form>
+
+    <h2 id="result"></h2>
+
+    <script>
+        document.getElementById('predictForm').onsubmit = async function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const formData = new FormData(this);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = `Predicted Price: $${data.price.toFixed(2)}`; // Display predicted price
+        }
+    </script>
+</body>
+</html>
